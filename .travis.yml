@@ -7,7 +7,7 @@ script:
   - npm install --save xmlhttprequest
   - node updateData.js
   - git status
-  - git commit * --message="Update Data"
+  - git commit data/* --message="Update Data"
   - git push
 branches:
   only:
