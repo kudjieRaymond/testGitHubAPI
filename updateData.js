@@ -62,7 +62,7 @@ function initJSON(url,name) {
   return allTags;
 }
 
-function updateData(previousData,newData) {
+function updateJSON(previousData,newData) {
   previousData.versions.forEach( (version) => {
     var versionName = version.name;
     version.allOS.forEach( (os) => {
@@ -106,26 +106,24 @@ function updateDataGAMA(){
 //  fs.writeFile('./data/gama.json', strJSON, 'utf8', function(ret){;});
 }
 
-//updateDataGAMA();
-
-
 // Read the APIGitHub
-function resetDataCOMOKIT(urlData,urlAPI,name){
+function resetData(urlData,urlAPI,name){
+  console.log("-----------------RESET------");
   var init = initJSON(urlAPI,name);
   var strJSON = JSON.stringify(init);
   fs.writeFileSync(urlData, strJSON, 'utf8', function(ret){console.log(ret);});
 }
 
 // Read the APIGitHub
-function updateDataCOMOKIT(urlData,urlAPI,name){
+function updateData(urlData,urlAPI,name){
   console.log("-----------------UPDATE------");
   var previousData = fs.readFileSync(urlData, "utf8");
   var previousDataJSON = JSON.parse(previousData);
   var newData = initJSON(urlAPI,name);
-  var updatedData = updateData(previousDataJSON,newData);
+  var updatedData = updateJSON(previousDataJSON,newData);
   var strJSON = JSON.stringify(updatedData);
   fs.writeFileSync('./data/comokit2.json', strJSON, 'utf8', function(ret){console.log(ret);});
 }
 
-resetDataCOMOKIT('./data/comokit.json',"https://api.github.com/repos/COMOKIT/COMOKIT-Model/releases","COMOKIT");
-updateDataCOMOKIT('./data/comokit.json',"https://api.github.com/repos/COMOKIT/COMOKIT-Model/releases","COMOKIT");
+resetData('./data/comokit.json',"https://api.github.com/repos/COMOKIT/COMOKIT-Model/releases","COMOKIT2");
+updateData('./data/comokit.json',"https://api.github.com/repos/COMOKIT/COMOKIT-Model/releases","COMOKIT2");
