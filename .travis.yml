@@ -4,6 +4,7 @@ dist: trusty
 notifications:
   email: false
 script:
+  - npm install --save xmlhttprequest
   - ls -al
   - node updateData.js
   - ls ./data/
