@@ -5,7 +5,7 @@ notifications:
   email: false
 script:
   - ls -al
-  - node getContinuous.js
+  - node updateData.js
   - ls ./data/
 branches:
   only:
