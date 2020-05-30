@@ -1,14 +1,12 @@
 sudo: required
 language: java
 dist: trusty
-jdk:
-- oraclejdk8
 notifications:
   email: false
 script:
   - ls -al
-  - npm -help
-  - node getContinuous.js
+  - node updateData.js
+  - ls ./data/
 branches:
   only:
   - master
