@@ -7,11 +7,11 @@ script:
   - npm install --save xmlhttprequest
   - node updateData.js
   - git config --global user.email "benoit.gaudou@gmail.com"
-  - git config --global user.name "benoitgaudou"
+  - git config --global user.name "benoitgaudou"  
   - git status
   - git commit data/* --message="Update Data"
   - git remote -v
-  - git remote add origin https://${GH_token_public_repo}@github.com/benoitgaudou/testGitHubAPI.git > /dev/null 2>&1
+  - git remote add origin https://benoitgaudou:${GH_token_public_repo}@github.com/benoitgaudou/testGitHubAPI.git > /dev/null 2>&1
   - git push --set-upstream origin master
 branches:
   only:
