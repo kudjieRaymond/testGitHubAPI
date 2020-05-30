@@ -1,0 +1,10 @@
+[
+  {
+    "name": "GAMA32",
+    "count": 32
+  },
+  {
+    "name": "GAMA64",
+    "count": 64      
+  }
+]
