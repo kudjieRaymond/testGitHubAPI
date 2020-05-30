@@ -10,8 +10,9 @@ script:
   - git config --global user.name "benoitgaudou"
   - git status
   - git commit data/* --message="Update Data"
-  - git remote add origin-pages https://${GH_TOKEN}@github.com/MVSE-outreach/resources.git > /dev/null 2>&1
-  - git push --quiet --set-upstream origin-pages master 
+  - git remote -v
+  - git remote add origin-pages https://${GH_token_public_repo}@github.com/benoitgaudou/testGitHubAPI.git > /dev/null 2>&1
+  - git push --set-upstream origin master
 branches:
   only:
   - master
