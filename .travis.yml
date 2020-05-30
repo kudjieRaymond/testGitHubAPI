@@ -8,7 +8,7 @@ notifications:
 script:
   - ls -al
   - npm -help
-  - npm run getContinuous.js
+  - node getContinuous.js
 branches:
   only:
   - master
