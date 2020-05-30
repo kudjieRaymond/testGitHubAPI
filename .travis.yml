@@ -7,7 +7,8 @@ notifications:
   email: false
 script:
   - ls -al
-  - cd genstar.gamaplugin.parent
+  - curl https://api.github.com/repos/gama-platform/gama/releases
+  - npm -help
 branches:
   only:
   - master
