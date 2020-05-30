@@ -125,5 +125,5 @@ function updateData(urlData,urlAPI,name){
   fs.writeFileSync('./data/comokit2.json', strJSON, 'utf8', function(ret){console.log(ret);});
 }
 
-resetData('./data/comokit.json',"https://api.github.com/repos/COMOKIT/COMOKIT-Model/releases","COMOKIT2");
-updateData('./data/comokit.json',"https://api.github.com/repos/COMOKIT/COMOKIT-Model/releases","COMOKIT2");
+resetData('./data/comokit.json',"https://api.github.com/repos/COMOKIT/COMOKIT-Model/releases","COMOKIT3");
+updateData('./data/comokit.json',"https://api.github.com/repos/COMOKIT/COMOKIT-Model/releases","COMOKIT3");
