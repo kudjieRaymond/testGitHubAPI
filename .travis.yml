@@ -1,0 +1,13 @@
+sudo: required
+language: java
+dist: trusty
+jdk:
+- oraclejdk8
+notifications:
+  email: false
+script:
+  - ls -al
+  - cd genstar.gamaplugin.parent
+branches:
+  only:
+  - master
