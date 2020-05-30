@@ -8,6 +8,8 @@ script:
   - ls -al
   - node updateData.js
   - ls ./data/
+  - git commit * --message="Update Data"
+  - git push
 branches:
   only:
   - master
