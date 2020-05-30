@@ -6,25 +6,6 @@ var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 //importing file system library
 var fs = require('fs');
 
-// Exécute un appel AJAX GET
-// Prend en paramètres l'URL cible et la fonction callback appelée en cas de succès
-function ajaxGet(url, callback) {
-    var req = new XMLHttpRequest();
-    req.open("GET", url);
-    req.addEventListener("load", function () {
-        if (req.status >= 200 && req.status < 400) {
-            // Appelle la fonction callback en lui passant la réponse de la requête
-            callback(req.responseText);
-        } else {
-            console.error(req.status + " " + req.statusText + " " + url);
-        }
-    });
-    req.addEventListener("error", function () {
-        console.error("Erreur réseau avec l'URL " + url);
-    });
-    req.send(null);
-}
-
 function ajaxReturn(url) {
     var req = new XMLHttpRequest();
     req.open("GET", url,false);
@@ -35,46 +16,116 @@ function ajaxReturn(url) {
     }
 }
 
-function displayDL(url,elt) {
-  ajaxGet(url, function (rep) {
-      // Transforme la réponse en tableau d'objets JavaScript
-      var dls = JSON.parse(rep);
-      console.log(dls);
-      // Affiche le titre de chaque film
-      dls.forEach(function (dl) {
-          console.log(dl);
-
-          var sublist = "";
-          var totalNb = 0;
-          dl.assets.forEach(function(asset){
-            sublist = sublist + "<li>" + asset.name + " - " + asset.download_count + "</li>";
-            totalNb = totalNb + asset.download_count;
-          });
-
-          //eltGAMA
-          elt.innerHTML = elt.innerHTML + "<li> <b>"+dl.tag_name+ "</b> - "+ totalNb +"</li>";
-          elt.innerHTML = elt.innerHTML + "<ul>" + sublist + "</ul>";
-      });
-  });
+function getDate(){
+  var d = new Date();
+  return d.getDay()+"-"+d.getMonth()+"-"+d.getFullYear();
 }
+
+function getOS(asset){
+  var os = {};
+  os.name = asset.name;
+  os.download_count = asset.download_count;
+  os.history = [];
+  os.history.push({date: getDate(), dl: asset.download_count});
+  return os;
+}
+
+function getTag(version) {
+  var tag = {};
+  tag.name = version.name;
+  tag.allOS = [];
+
+  var totalNb = 0;
+  version.assets.forEach(function(asset){
+    var os = getOS(asset);
+    tag.allOS.push(os);
+
+    totalNb = totalNb + os.download_count;
+  });
+  tag.download_count = totalNb;
+  return tag;
+}
+
+function initJSON(url,name) {
+  var json = ajaxReturn(url);
+  var dls = JSON.parse(json);
+
+  var allTags = {};
+  allTags.name = name;
+  allTags.versions = [];
+
+  dls.forEach(function(version){
+      var aVersion = getTag(version);
+      allTags.versions.push(aVersion);
+  });
+
+  return allTags;
+}
+
+function updateData(previousData,newData) {
+  previousData.versions.forEach( (version) => {
+    var versionName = version.name;
+    version.allOS.forEach( (os) => {
+      var osName = os.name;
+      var hist = os.history;
+      // add new data to the history
+
+      newData.versions.forEach( (newVersion) => {
+        if(newVersion.name == versionName) {
+          newVersion.allOS.forEach( (newOS) => {
+            if(osName == newOS.name) {
+              hist.push(newOS.history[0]);
+            }
+          });
+        }
+      });
+    });
+  });
+
+  return previousData;
+}
+
+// Read the APIGitHub
+function resetDataGAMA(){
+  var init = initJSON("https://api.github.com/repos/gama-platform/gama/releases","GAMA platform");
+  var strJSON = JSON.stringify(init);
+  fs.writeFile('./data/gama.json', strJSON, 'utf8', function(ret){;});
+}
+
+// resetDataGAMA();
+
+// Read the APIGitHub
+function updateDataGAMA(){
+  var data = fs.readFileSync("./data/gama.json", "utf8");
+  //parsing data read to json format
+  var dataJSON = JSON.parse(data);
+  console.log(dataJSON);
+
+//  var update = updateJSON(dataJSON,"https://api.github.com/repos/gama-platform/gama/releases");
+//  var strJSON = JSON.stringify(init);
+//  fs.writeFile('./data/gama.json', strJSON, 'utf8', function(ret){;});
+}
+
+//updateDataGAMA();
 
 
 // Read the APIGitHub
-var gamaRelease = ajaxReturn("https://api.github.com/repos/gama-platform/gama/releases");
-console.log(gamaRelease);
+function resetDataCOMOKIT(urlData,urlAPI,name){
+  var init = initJSON(urlAPI,name);
+  var strJSON = JSON.stringify(init);
+  fs.writeFileSync(urlData, strJSON, 'utf8', function(ret){console.log(ret);});
+}
 
-//reading file "quotes.json" using readFileSync function
-var data = fs.readFileSync("./data/gama.json", "utf8");
+// Read the APIGitHub
+function updateDataCOMOKIT(urlData,urlAPI,name){
+  console.log("-----------------UPDATE------");
+  var previousData = fs.readFileSync(urlData, "utf8");
+  var previousDataJSON = JSON.parse(previousData);
+  var newData = initJSON(urlAPI,name);
+  var updatedData = updateData(previousDataJSON,newData);
+  var strJSON = JSON.stringify(updatedData);
+  fs.writeFileSync('./data/comokit2.json', strJSON, 'utf8', function(ret){console.log(ret);});
+}
 
-//parsing data read to json format
-var data1 = JSON.parse(data);
-
-//printing complete data1
-console.log(data1);
-
-
-//var eltGAMA = document.getElementById("gama");
-//displayDL("https://api.github.com/repos/gama-platform/gama/releases",eltGAMA);
-//
-//var eltCOMOKIT = document.getElementById("comokit");
-//displayDL("https://api.github.com/repos/COMOKIT/COMOKIT-Model/releases",eltCOMOKIT);
+resetDataCOMOKIT('./data/comokit.json',"https://api.github.com/repos/COMOKIT/COMOKIT-Model/releases","COMOKIT");
+updateDataCOMOKIT('./data/comokit.json',"https://api.github.com/repos/COMOKIT/COMOKIT-Model/releases","COMOKIT");
