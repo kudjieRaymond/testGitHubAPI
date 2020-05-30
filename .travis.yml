@@ -7,8 +7,8 @@ notifications:
   email: false
 script:
   - ls -al
-  - curl https://api.github.com/repos/gama-platform/gama/releases
   - npm -help
+  - npm run getContinuous.js
 branches:
   only:
   - master
