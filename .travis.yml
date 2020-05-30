@@ -8,7 +8,7 @@ script:
   - node updateData.js
   - git status
   - git commit data/* --message="Update Data"
-  - git push
+  - git push origin HEAD
 branches:
   only:
   - master
