@@ -15,7 +15,7 @@ function displayDL(url,elt) {
           });
 
           //eltGAMA
-          elt.innerHTML = elt.innerHTML + "<li> <b>"+dl.tag_name+ "</b> - "+ totalNb +"</li>";
+          elt.innerHTML = elt.innerHTML + "<li> <b>"+dl.name+ "</b> - "+ totalNb +"</li>";
           elt.innerHTML = elt.innerHTML + "<ul>" + sublist + "</ul>";
       });
   });
