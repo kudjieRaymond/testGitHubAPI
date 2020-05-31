@@ -1,10 +1,10 @@
 # Downloads
 
-## GAMA platform
+## GAMA platform downloads
 
 <ul id="gama"></ul>
 
-## COMOKIT
+## COMOKIT downloads
 
 <ul id="comokit"></ul>
 
