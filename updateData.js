@@ -85,26 +85,6 @@ function updateJSON(previousData,newData) {
   return previousData;
 }
 
-// Read the APIGitHub
-function resetDataGAMA(){
-  var init = initJSON("https://api.github.com/repos/gama-platform/gama/releases","GAMA platform");
-  var strJSON = JSON.stringify(init);
-  fs.writeFile('./data/gama.json', strJSON, 'utf8', function(ret){;});
-}
-
-// resetDataGAMA();
-
-// Read the APIGitHub
-function updateDataGAMA(){
-  var data = fs.readFileSync("./data/gama.json", "utf8");
-  //parsing data read to json format
-  var dataJSON = JSON.parse(data);
-  console.log(dataJSON);
-
-//  var update = updateJSON(dataJSON,"https://api.github.com/repos/gama-platform/gama/releases");
-//  var strJSON = JSON.stringify(init);
-//  fs.writeFile('./data/gama.json', strJSON, 'utf8', function(ret){;});
-}
 
 // Read the APIGitHub
 function resetData(urlData,urlAPI,name){
@@ -125,15 +105,9 @@ function updateData(urlData,urlAPI,name){
   fs.writeFileSync(urlData, strJSON, 'utf8', function(ret){console.log(ret);});
 }
 
-resetData('./docs/assets/data/gama.json',"https://api.github.com/repos/gama-platform/gama/releases","GAMA platform");
+//resetData('./docs/assets/data/gama.json',"https://api.github.com/repos/gama-platform/gama/releases","GAMA platform");
 updateData('./docs/assets/data/gama.json',"https://api.github.com/repos/gama-platform/gama/releases","GAMA platform");
 
-resetData('./docs/assets/data/comokit.json',"https://api.github.com/repos/COMOKIT/COMOKIT-Model/releases","COMOKIT");
+//resetData('./docs/assets/data/comokit.json',"https://api.github.com/repos/COMOKIT/COMOKIT-Model/releases","COMOKIT");
 updateData('./docs/assets/data/comokit.json',"https://api.github.com/repos/COMOKIT/COMOKIT-Model/releases","COMOKIT");
 
-
-//resetData('./data/gama.json',"https://api.github.com/repos/gama-platform/gama/releases","GAMA platform");
-//updateData('./data/gama.json',"https://api.github.com/repos/gama-platform/gama/releases","GAMA platform");
-//
-//resetData('./data/comokit.json',"https://api.github.com/repos/COMOKIT/COMOKIT-Model/releases","COMOKIT");
-//updateData('./data/comokit.json',"https://api.github.com/repos/COMOKIT/COMOKIT-Model/releases","COMOKIT");
