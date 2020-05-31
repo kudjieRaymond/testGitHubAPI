@@ -6,5 +6,5 @@
 ## Download COMOKIT
 <ul id="comokit"></ul>
 
-<script src="../ajax.js"></script>
-<script src="../github.js"></script>
+<script src="./assets/ajax.js"></script>
+<script src="./assets/github.js"></script>
