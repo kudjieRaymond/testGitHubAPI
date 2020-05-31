@@ -1,20 +1,22 @@
 # Downloads
 
-## Downloaads
+## GAMA platform
 
-### GAMA platform
 <ul id="gama"></ul>
 
-### COMOKIT
+## COMOKIT
+
 <ul id="comokit"></ul>
 
 
-## Historic
+# History
 
-### GAMA platform
+## Histoy for GAMA platform
+
 <ul id="histo-gama"></ul>
 
-### COMOKIT
+## History for COMOKIT
+
 <ul id="histo-comokit"></ul>
 
 <script src="./assets/ajax.js"></script>
