@@ -19,7 +19,7 @@ function displayData(url,elt) {
 
     //eltGAMA
     elt.innerHTML = elt.innerHTML + "<li> <b>" + version.name+ "</b> - "+ version.download_count +"</li>";
-    elt.innerHTML = elt.innerHTML + "<ul>" + sublist + "</ul>";
+    elt.innerHTML = elt.innerHTML + "<ul><details><summary style=\"display: list-item;\">Details</summary>" + sublist + "</details></ul>";
   });
 }
 
