@@ -36,6 +36,25 @@ function displayData(url, elt) {
 			sublist +
 			"</details></ul>";
 	});
+
+	var ctx = document.getElementById(canvaId).getContext("2d");
+	var myChart = new Chart(ctx, {
+		type: "line",
+		data: {
+			labels: labels,
+			datasets: [
+				{
+					label: "# of Downloads",
+					data: data,
+					borderWidth: 1,
+					fill: false,
+					borderColor: "rgb(75, 192, 192)",
+					tension: 0.1,
+				},
+			],
+		},
+	});
+
 }
 
 var eltGAMAhisto = document.getElementById("histo-gama");
