@@ -1,31 +1,45 @@
+function displayData(url, elt) {
+	var req = new XMLHttpRequest();
+	req.open("GET", url, false);
+	req.send(null);
+	var dataJSON = JSON.parse(req.responseText);
+	var labels = [];
+	var data = [];
+	var canvaId = elt + "-canva";
 
-function displayData(url,elt) {
-  var req = new XMLHttpRequest();
-  req.open("GET", url,false);
-  req.send(null);
-  var dataJSON = JSON.parse(req.responseText);
+	dataJSON.versions.forEach(function (version) {
+		var sublist = "";
+		version.allOS.forEach(function (os) {
+			sublist =
+				sublist + "<li>" + os.name + " - " + os.download_count + "</li>";
+			histolist = "";
+			// for each
+			os.history.forEach(function (histo) {
+				histolist =
+					histolist + "<li>" + histo.date + " - " + histo.dl + "</li>";
+				labels.push(histo.date);
+				data.push(histo.dl);
+			});
+			sublist = sublist + "<ul>" + histolist + "</ul>";
+		});
 
-  dataJSON.versions.forEach(function (version) {
-    var sublist = "";
-    version.allOS.forEach(function(os){
-      sublist = sublist + "<li>" + os.name + " - " + os.download_count + "</li>";
-      histolist = "";
-      // for each
-      os.history.forEach(function(histo) {
-        histolist = histolist + "<li>" + histo.date + " - " + histo.dl + "</li>";
-      })
-      sublist = sublist + "<ul>" + histolist + "</ul>";
-    });
-
-    //eltGAMA
-    elt.innerHTML = elt.innerHTML + "<li> <b>" + version.name+ "</b> - "+ version.download_count +"</li>";
-    elt.innerHTML = elt.innerHTML + "<ul><details><summary style=\"display: list-item;\">Details</summary>" + sublist + "</details></ul>";
-  });
+		//eltGAMA
+		elt.innerHTML =
+			elt.innerHTML +
+			+'<canvas id="' +
+			canvaId +
+			'" width="400" height="300"></canvas>';
+		"<li> <b>" + version.name + "</b> - " + version.download_count + "</li>";
+		elt.innerHTML =
+			elt.innerHTML +
+			'<ul><details><summary style="display: list-item;">Details</summary>' +
+			sublist +
+			"</details></ul>";
+	});
 }
 
-
 var eltGAMAhisto = document.getElementById("histo-gama");
-displayData("./assets/data/gama.json",eltGAMAhisto);
+displayData("./assets/data/gama.json", eltGAMAhisto);
 
 var eltCOMOKIThisto = document.getElementById("histo-comokit");
-displayData("./assets/data/comokit.json",eltCOMOKIThisto);
+displayData("./assets/data/comokit.json", eltCOMOKIThisto);
