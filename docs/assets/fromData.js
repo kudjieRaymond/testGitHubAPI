@@ -3,7 +3,8 @@ function displayData(url, elt) {
 	req.open("GET", url, false);
 	req.send(null);
 	var dataJSON = JSON.parse(req.responseText);
-
+	var i= 0;
+	
 	dataJSON.versions.forEach(function (version) {
 		var labels = [];
 		var data = [];
