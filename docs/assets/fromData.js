@@ -5,7 +5,7 @@ function displayData(url, elt) {
 	var dataJSON = JSON.parse(req.responseText);
 	var labels = [];
 	var data = [];
-	var canvaId = elt + "-canva";
+	var canvaId = elt.id + "-canva";
 
 	dataJSON.versions.forEach(function (version) {
 		var sublist = "";
