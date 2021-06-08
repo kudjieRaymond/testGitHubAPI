@@ -4,11 +4,12 @@ function displayData(url, elt) {
 	req.send(null);
 	var dataJSON = JSON.parse(req.responseText);
 	var i= 0;
-	
+
 	dataJSON.versions.forEach(function (version) {
 		var labels = [];
 		var data = [];
 		var canvaId = elt.getAttribute("id") + "-version-" + ++i;
+		console.log(elt)
 
 		var sublist = "";
 		version.allOS.forEach(function (os) {
@@ -28,10 +29,14 @@ function displayData(url, elt) {
 		//eltGAMA
 		elt.innerHTML =
 			elt.innerHTML +
-			+'<canvas id="' +
+			'<canvas id="' +
 			canvaId +
-			'" width="400" height="300"></canvas>';
-		"<li> <b>" + version.name + "</b> - " + version.download_count + "</li>";
+			'" width="400" height="300"></canvas>' +
+			"<li> <b>" +
+			version.name +
+			"</b> - " +
+			version.download_count +
+			"</li>";
 		elt.innerHTML =
 			elt.innerHTML +
 			'<ul><details><summary style="display: list-item;">Details</summary>' +
