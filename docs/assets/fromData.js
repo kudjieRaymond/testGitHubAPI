@@ -3,18 +3,31 @@ function displayData(url, elt) {
 	req.open("GET", url, false);
 	req.send(null);
 	var dataJSON = JSON.parse(req.responseText);
-	var i= 0;
+	var i = 0;
+
+	var counterArray = [];
+	var canvaData = [];
 
 	dataJSON.versions.forEach(function (version) {
-		var labels = [];
-		var data = [];
-		var canvaId = elt.getAttribute("id") + "-version-" + ++i;
-		console.log(elt)
-
 		var sublist = "";
+
 		version.allOS.forEach(function (os) {
-			sublist =
-				sublist + "<li>" + os.name + " - " + os.download_count + "</li>";
+			var labels = [];
+			var data = [];
+
+			var canvaId = elt.getAttribute("id") + "-os-" + ++i;
+
+			counterArray.push(i);
+
+			sublist +=
+				'<canvas id="' +
+				canvaId +
+				'" width="400" height="300"></canvas>' +
+				"<li>" +
+				os.name +
+				" - " +
+				os.download_count +
+				"</li>";
 			histolist = "";
 			// for each
 			os.history.forEach(function (histo) {
@@ -24,42 +37,39 @@ function displayData(url, elt) {
 				data.push(histo.dl);
 			});
 			sublist = sublist + "<ul>" + histolist + "</ul>";
+			canvaData.push([data, labels]);
+			
 		});
 
 		//eltGAMA
-		elt.innerHTML =
-			elt.innerHTML +
-			'<canvas id="' +
-			canvaId +
-			'" width="400" height="300"></canvas>' +
-			"<li> <b>" +
-			version.name +
-			"</b> - " +
-			version.download_count +
-			"</li>";
+		elt.innerHTML +=
+			"<li> <b>" + version.name + "</b> - " + version.download_count + "</li>";
 		elt.innerHTML =
 			elt.innerHTML +
 			'<ul><details><summary style="display: list-item;">Details</summary>' +
 			sublist +
 			"</details></ul>";
 
-		var ctx = document.getElementById(canvaId).getContext("2d");
-		var myChart = new Chart(ctx, {
-			type: "line",
-			data: {
-				labels: labels,
-				datasets: [
-					{
-						label: "# of Downloads",
-						data: data,
-						borderWidth: 1,
-						fill: false,
-						borderColor: "rgb(75, 192, 192)",
-						tension: 0.1,
-					},
-				],
-			},
-		});
+		for (var j = 0; j < canvaData.length; j++) {
+			var canvaId = elt.getAttribute("id") + "-os-" + counterArray[j];
+			var ctx = document.getElementById(canvaId).getContext("2d");
+			new Chart(ctx, {
+				type: "line",
+				data: {
+					labels: canvaData[j][1],
+					datasets: [
+						{
+							label: "# of Downloads",
+							data: canvaData[j][0],
+							borderWidth: 1,
+							fill: false,
+							borderColor: "rgb(75, 192, 192)",
+							tension: 0.1,
+						},
+					],
+				},
+			});
+		}
 	});
 }
 
