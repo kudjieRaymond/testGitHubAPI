@@ -5,8 +5,8 @@ name: Update Download Data
 
 on:
   # At the end of every day
-  schedule:
-  - cron: "0 0 * * *"
+  #schedule:
+  #- cron: "0 0 * * *"
   push:
     branches: [ master ]
   pull_request:
